@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -64,14 +65,19 @@ public class InsertBook extends HttpServlet {
 			insert.setString(1, bookTitle);
 			insert.setString(2, bookSubject);
 			insert.setString(3, bookPrice);
-
+			
 			int n = insert.executeUpdate();
 			if (n != 0) {
 				out.print("BOOK ADDED SUCCESSFULLY");
-				out.print("<hr/>");
-				out.print("<a href='AddBook.jsp'>Add Another Book</a>");
-			} else
+				RequestDispatcher rd = request.getRequestDispatcher("/AddBook.jsp");
+				rd.include(request,response);
+				
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("/AddBook.jsp");
+				rd.include(request,response);
 				out.print("TRY AGAIN");
+			}
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
